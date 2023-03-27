@@ -1,35 +1,48 @@
 package com.linggash.githubusers
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.linggash.githubusers.databinding.ActivityUserDetailBinding
 
 class UserDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserDetailBinding
-    private val mainViewModel by viewModels<MainViewModel>()
+    private lateinit var username: String
+//    private val userDetailViewModel by viewModels<UserDetailViewModel>()
+
+    companion object {
+        private const val STATE_USERNAME = "state_username"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = intent.getStringExtra("USERNAME")
+        if (savedInstanceState != null) {
+            username = savedInstanceState.getString(STATE_USERNAME)!!
+        }else {
+            username = intent.getStringExtra("USERNAME")!!
+        }
+        val userDetailViewModel = ViewModelProvider(this, UserDetailViewModel.UserDetailViewModelFactory(username!!))[UserDetailViewModel::class.java]
 
-        mainViewModel.getUserDetail(username!!)
-
-        mainViewModel.userDetail.observe(this){
+        userDetailViewModel.userDetail.observe(this){
             setUserDetail(it)
         }
 
-        mainViewModel.isLoading.observe(this) {
+        userDetailViewModel.isLoading.observe(this) {
             showLoading(it)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(STATE_USERNAME, username)
     }
 
     private fun setUserDetail(users: UserDetail) {
