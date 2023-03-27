@@ -15,12 +15,17 @@ data class UserResponse(
 )
 
 data class User(
-
 	@field:SerializedName("avatar_url")
 	val avatarUrl: String,
 
-	@field:SerializedName("html_url")
-	val htmlUrl: String,
+	@field:SerializedName("login")
+	val login: String
+)
+
+data class UserDetail(
+
+	@field:SerializedName("avatar_url")
+	val avatarUrl: String,
 
 	@field:SerializedName("following_url")
 	val followingUrl: String,
@@ -32,5 +37,8 @@ data class User(
 	val followersUrl: String,
 
 	@field:SerializedName("url")
-	val url: String
+	val url: String,
+
+	@field:SerializedName("name")
+	val name: String
 )

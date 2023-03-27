@@ -2,12 +2,11 @@ package com.linggash.githubusers
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -65,15 +64,15 @@ class MainActivity : AppCompatActivity() {
             listUser.add(
                 User(
                     avatarUrl = user.avatarUrl,
-                    htmlUrl = user.htmlUrl,
-                    followingUrl = user.followingUrl,
-                    login = user.login,
-                    followersUrl = user.followersUrl,
-                    url = user.url
+                    login = user.login
                 )
             )
         }
-        val adapter = UserAdapter(listUser)
+        val adapter = UserAdapter(listUser){
+            val intentDetail = Intent(this, UserDetailActivity::class.java)
+            intentDetail.putExtra("USERNAME", it.login)
+            startActivity(intentDetail)
+        }
         binding.rvUsers.adapter = adapter
     }
 

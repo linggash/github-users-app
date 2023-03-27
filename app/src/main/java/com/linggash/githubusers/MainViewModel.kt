@@ -16,6 +16,9 @@ class MainViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading : LiveData<Boolean> = _isLoading
 
+    private val _userDetail = MutableLiveData<UserDetail>()
+    val userDetail : LiveData<UserDetail> = _userDetail
+
     companion object {
         private const val TAG = "MainViewModel"
     }
@@ -37,6 +40,30 @@ class MainViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            }
+
+        })
+    }
+
+    fun getUserDetail(username: String) {
+        _isLoading.value = true
+        val client = ApiConfig.getApiService().getUserDetail(username)
+        client.enqueue(object : Callback<UserDetail> {
+            override fun onResponse(call: Call<UserDetail>, response: Response<UserDetail>) {
+                _isLoading.value = false
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        _userDetail.value = responseBody
+                    } else {
+                        Log.e(TAG, "onFailure: ${response.message()}")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<UserDetail>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
