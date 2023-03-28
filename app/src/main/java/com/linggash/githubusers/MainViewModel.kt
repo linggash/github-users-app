@@ -20,6 +20,10 @@ class MainViewModel : ViewModel() {
         private const val TAG = "MainViewModel"
     }
 
+    init {
+        getUser("a")
+    }
+
     fun getUser(user: String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getUsers(user)

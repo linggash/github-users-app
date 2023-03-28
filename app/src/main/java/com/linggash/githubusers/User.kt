@@ -27,18 +27,15 @@ data class UserDetail(
 	@field:SerializedName("avatar_url")
 	val avatarUrl: String,
 
-	@field:SerializedName("following_url")
-	val followingUrl: String,
-
 	@field:SerializedName("login")
 	val login: String,
 
-	@field:SerializedName("followers_url")
-	val followersUrl: String,
-
-	@field:SerializedName("url")
-	val url: String,
-
 	@field:SerializedName("name")
-	val name: String
+	val name: String,
+
+	@field:SerializedName("following")
+	val following: String,
+
+	@field:SerializedName("followers")
+	val follower: String
 )

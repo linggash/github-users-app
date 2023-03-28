@@ -2,4 +2,7 @@
     <string name="app_name">Github Users</string>
     <string name="search">Search</string>
     <string name="search_hint">Cari User</string>
+    <string name="tab_text_1">Followers</string>
+    <string name="tab_text_2">Following</string>
+    <string name="content_tab_text">This is Tab %1$d</string>
 </resources>

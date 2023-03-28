@@ -48,6 +48,7 @@ class UserDetailViewModel(private val name: String) : ViewModel() {
 
         })
     }
+
     class UserDetailViewModelFactory(private val name: String) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return UserDetailViewModel(name) as T
