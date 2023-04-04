@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.linggash.githubusers.ApiConfig
-import com.linggash.githubusers.UserDetail
+import com.linggash.githubusers.data.remote.ApiConfig
+import com.linggash.githubusers.data.remote.UserDetail
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

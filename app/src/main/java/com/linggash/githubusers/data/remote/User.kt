@@ -1,4 +1,4 @@
-package com.linggash.githubusers
+package com.linggash.githubusers.data.remote
 
 import com.google.gson.annotations.SerializedName
 

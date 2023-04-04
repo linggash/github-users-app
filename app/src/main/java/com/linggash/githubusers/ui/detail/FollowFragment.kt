@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.linggash.githubusers.User
-import com.linggash.githubusers.UserAdapter
+import com.linggash.githubusers.data.remote.User
+import com.linggash.githubusers.ui.UserAdapter
 import com.linggash.githubusers.databinding.FragmentFollowBinding
 
 class FollowFragment : Fragment() {

@@ -1,5 +1,6 @@
-package com.linggash.githubusers
+package com.linggash.githubusers.ui
 
+import com.linggash.githubusers.data.remote.User
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

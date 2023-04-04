@@ -12,8 +12,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.linggash.githubusers.R
-import com.linggash.githubusers.SectionsPagerAdapter
-import com.linggash.githubusers.UserDetail
+import com.linggash.githubusers.data.remote.UserDetail
 import com.linggash.githubusers.databinding.ActivityUserDetailBinding
 
 class UserDetailActivity : AppCompatActivity() {
