@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -16,6 +17,7 @@ import com.linggash.githubusers.data.remote.User
 import com.linggash.githubusers.ui.UserAdapter
 import com.linggash.githubusers.ui.detail.UserDetailActivity
 import com.linggash.githubusers.databinding.ActivityMainBinding
+import com.linggash.githubusers.ui.favorite.FavoriteUserActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,6 +64,16 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.btn_favorite -> {
+                val intent = Intent(this, FavoriteUserActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun setListUserData(users: List<User>) {
         val listUser = ArrayList<User>()
         for (user in users) {
@@ -81,6 +93,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding?.progressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

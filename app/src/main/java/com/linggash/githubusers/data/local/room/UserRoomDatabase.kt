@@ -7,23 +7,23 @@ import androidx.room.RoomDatabase
 import com.linggash.githubusers.data.local.entity.FavoriteUserEntity
 
 @Database(entities = [FavoriteUserEntity::class], version = 1)
-abstract class FavoriteRoomDatabase : RoomDatabase() {
+abstract class UserRoomDatabase : RoomDatabase() {
     abstract fun favoriteUserDao(): FavoriteUserDao
 
     companion object {
         @Volatile
-        private var INSTANCE: FavoriteRoomDatabase? = null
+        private var INSTANCE: UserRoomDatabase? = null
 
         @JvmStatic
-        fun getDatabase(context: Context): FavoriteRoomDatabase {
+        fun getDatabase(context: Context): UserRoomDatabase {
             if (INSTANCE == null) {
-                synchronized(FavoriteRoomDatabase::class.java) {
+                synchronized(UserRoomDatabase::class.java) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        FavoriteRoomDatabase::class.java, "user_database")
+                        UserRoomDatabase::class.java, "user_database")
                         .build()
                 }
             }
-            return INSTANCE as FavoriteRoomDatabase
+            return INSTANCE as UserRoomDatabase
         }
     }
 }

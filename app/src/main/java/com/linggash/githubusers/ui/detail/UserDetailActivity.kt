@@ -5,20 +5,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.linggash.githubusers.R
+import com.linggash.githubusers.data.local.entity.FavoriteUserEntity
 import com.linggash.githubusers.data.remote.UserDetail
 import com.linggash.githubusers.databinding.ActivityUserDetailBinding
+import com.linggash.githubusers.ui.favorite.FavoriteUserViewModel
+import com.linggash.githubusers.ui.favorite.FavoriteUserViewModelFactory
 
 class UserDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserDetailBinding
     private lateinit var username: String
+    private lateinit var user: FavoriteUserEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +43,26 @@ class UserDetailActivity : AppCompatActivity() {
         )[UserDetailViewModel::class.java]
 
         userDetailViewModel.userDetail.observe(this){
+            user = FavoriteUserEntity(
+                username = it.login,
+                avatarUrl = it.avatarUrl
+            )
             setUserDetail(it)
         }
 
         userDetailViewModel.isLoading.observe(this) {
             showLoading(it)
+        }
+
+        val factory: FavoriteUserViewModelFactory = FavoriteUserViewModelFactory.getInstance(this)
+        val favoriteViewModel: FavoriteUserViewModel by viewModels { factory }
+
+        favoriteViewModel.isFavorite(username).observe(this) {
+            if (it?.username == null){
+                setFabFavorite(false, favoriteViewModel)
+            } else {
+                setFabFavorite(true, favoriteViewModel)
+            }
         }
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
@@ -52,7 +73,20 @@ class UserDetailActivity : AppCompatActivity() {
         TabLayoutMediator(tabs, viewPager) {tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
-        supportActionBar
+    }
+
+    private fun setFabFavorite(isFavorite: Boolean, favoriteViewModel: FavoriteUserViewModel) {
+        if (isFavorite) {
+            binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(binding.fabFavorite.context, R.drawable.ic_favorited))
+            binding.fabFavorite.setOnClickListener {
+                favoriteViewModel.deleteFavoriteUser(user)
+            }
+        } else {
+            binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(binding.fabFavorite.context, R.drawable.ic_favorite))
+            binding.fabFavorite.setOnClickListener {
+                favoriteViewModel.saveFavoriteUser(user)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -75,7 +109,7 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding?.progressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     companion object {

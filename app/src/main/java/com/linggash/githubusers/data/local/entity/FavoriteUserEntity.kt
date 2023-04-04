@@ -14,5 +14,5 @@ data class FavoriteUserEntity(
     var username: String = "",
 
     @ColumnInfo(name = "avatarUrl")
-    var avatarUrl: String? = null
+    var avatarUrl: String? = null,
 ) : Parcelable
