@@ -18,15 +18,6 @@ class UserDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserDetailBinding
     private lateinit var username: String
 
-    companion object {
-        private const val STATE_USERNAME = "state_username"
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.tab_text_1,
-            R.string.tab_text_2
-        )
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailBinding.inflate(layoutInflater)
@@ -67,10 +58,12 @@ class UserDetailActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun setUserDetail(users: UserDetail) {
-        binding.tvDetailName.text = users.name
-        binding.tvDetailUsername.text = users.login
-        binding.tvFollower.text = users.follower + " Followers"
-        binding.tvFollowing.text = users.following + " Following"
+        binding.apply {
+            tvDetailName.text = users.name
+            tvDetailUsername.text = users.login
+            tvFollower.text = users.follower + " Followers"
+            tvFollowing.text = users.following + " Following"
+        }
         Glide.with(this)
             .load(users.avatarUrl)
             .into(binding.imgDetailImage)
@@ -78,10 +71,15 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
+        binding?.progressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    companion object {
+        private const val STATE_USERNAME = "state_username"
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.tab_text_1,
+            R.string.tab_text_2
+        )
     }
 }

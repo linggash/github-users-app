@@ -15,15 +15,15 @@ import com.linggash.githubusers.databinding.FragmentFollowBinding
 class FollowFragment : Fragment() {
 
     private var _binding: FragmentFollowBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentFollowBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,9 +33,9 @@ class FollowFragment : Fragment() {
         var username: String
 
         val layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvFollow.layoutManager = layoutManager
+        binding?.rvFollow?.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
-        binding.rvFollow.addItemDecoration(itemDecoration)
+        binding?.rvFollow?.addItemDecoration(itemDecoration)
 
         arguments?.let {
             position = it.getInt(ARG_SECTION_NUMBER)
@@ -73,7 +73,7 @@ class FollowFragment : Fragment() {
             intentDetail.putExtra("USERNAME", it.login)
             startActivity(intentDetail)
         }
-        binding.rvFollow.adapter = adapter
+        binding?.rvFollow?.adapter = adapter
     }
 
     companion object {
@@ -82,10 +82,6 @@ class FollowFragment : Fragment() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
+        binding?.progressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
