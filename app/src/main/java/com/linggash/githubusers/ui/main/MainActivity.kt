@@ -1,4 +1,4 @@
-package com.linggash.githubusers
+package com.linggash.githubusers.ui.main
 
 import android.app.SearchManager
 import android.content.Context
@@ -11,6 +11,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.linggash.githubusers.R
+import com.linggash.githubusers.User
+import com.linggash.githubusers.UserAdapter
+import com.linggash.githubusers.ui.detail.UserDetailActivity
 import com.linggash.githubusers.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.linggash.githubusers
+package com.linggash.githubusers.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.linggash.githubusers.User
+import com.linggash.githubusers.UserAdapter
 import com.linggash.githubusers.databinding.FragmentFollowBinding
 
 class FollowFragment : Fragment() {
@@ -42,7 +44,8 @@ class FollowFragment : Fragment() {
             username = it.getString(ARG_USERNAME).toString()
             val followViewModel = ViewModelProvider(this, FollowViewModel.FollowViewModelFactory(
                 username
-            ))[FollowViewModel::class.java]
+            )
+            )[FollowViewModel::class.java]
             if (position == 1){
                 followViewModel.userFollower.observe(viewLifecycleOwner){follower ->
                     setFollow(follower)

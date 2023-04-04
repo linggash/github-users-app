@@ -1,4 +1,4 @@
-package com.linggash.githubusers
+package com.linggash.githubusers.ui.detail
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +11,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.linggash.githubusers.R
+import com.linggash.githubusers.SectionsPagerAdapter
+import com.linggash.githubusers.UserDetail
 import com.linggash.githubusers.databinding.ActivityUserDetailBinding
 
 class UserDetailActivity : AppCompatActivity() {
@@ -28,9 +31,11 @@ class UserDetailActivity : AppCompatActivity() {
         }else {
             intent.getStringExtra("USERNAME")!!
         }
-        val userDetailViewModel = ViewModelProvider(this, UserDetailViewModel.UserDetailViewModelFactory(
-            username
-        ))[UserDetailViewModel::class.java]
+        val userDetailViewModel = ViewModelProvider(this,
+            UserDetailViewModel.UserDetailViewModelFactory(
+                username
+            )
+        )[UserDetailViewModel::class.java]
 
         userDetailViewModel.userDetail.observe(this){
             setUserDetail(it)
