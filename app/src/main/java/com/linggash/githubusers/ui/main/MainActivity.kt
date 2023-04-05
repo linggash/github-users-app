@@ -9,15 +9,26 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.linggash.githubusers.R
+import com.linggash.githubusers.data.SettingPreferences
 import com.linggash.githubusers.data.remote.User
 import com.linggash.githubusers.ui.UserAdapter
 import com.linggash.githubusers.ui.detail.UserDetailActivity
 import com.linggash.githubusers.databinding.ActivityMainBinding
 import com.linggash.githubusers.ui.favorite.FavoriteUserActivity
+import com.linggash.githubusers.ui.setting.SettingActivity
+import com.linggash.githubusers.ui.setting.SettingViewModel
+import com.linggash.githubusers.ui.setting.SettingViewModelFactory
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +39,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val pref = SettingPreferences.getInstance(dataStore)
+        val viewModel = ViewModelProvider(this, SettingViewModelFactory(pref))[SettingViewModel::class.java]
+        viewModel.getThemeSetting().observe(this) { isDarkModeActive: Boolean  ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         mainViewModel.listUser.observe(this) {
             setListUserData(it)
@@ -68,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.btn_favorite -> {
                 val intent = Intent(this, FavoriteUserActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.menu_setting -> {
+                val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
             }
         }
